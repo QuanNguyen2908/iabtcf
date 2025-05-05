@@ -1,8 +1,8 @@
-[![NPM version](https://img.shields.io/npm/v/@iabtechlabtcf/stub.svg?style=flat-square)](https://www.npmjs.com/package/@iabtechlabtcf/stub)
-[![npm module downloads per month](http://img.shields.io/npm/dm/@iabtechlabtcf/stub.svg?style=flat)](https://www.npmjs.org/package/@iabtechlabtcf/stub)
+[![NPM version](https://img.shields.io/npm/v/@nguyenquan241208/stub.svg?style=flat-square)](https://www.npmjs.com/package/@nguyenquan241208/stub)
+[![npm module downloads per month](http://img.shields.io/npm/dm/@nguyenquan241208/stub.svg?style=flat)](https://www.npmjs.org/package/@nguyenquan241208/stub)
 [![InteractiveAdvertisingBureau](https://circleci.com/gh/InteractiveAdvertisingBureau/iabtcf-es.svg?style=shield)](https://circleci.com/gh/InteractiveAdvertisingBureau/iabtcf-es)
 
-# @iabtechlabtcf/stub
+# @nguyenquan241208/stub
 
 Cmp API Stub code.  Maybe included in commonjs loader or dropped directly on the page.
 
@@ -10,23 +10,23 @@ Cmp API Stub code.  Maybe included in commonjs loader or dropped directly on the
 
 npm
 ```
-npm install @iabtechlabtcf/stub
+npm install @nguyenquan241208/stub
 ```
 
 yarn
 ```
-yarn add @iabtechlabtcf/stub
+yarn add @nguyenquan241208/stub
 ```
 #### Using
 
 ##### include via module loading
 ```javascript
-import * as cmpstub from '@iabtechlabtcf/stub';
+import * as cmpstub from '@nguyenquan241208/stub';
 ```
 or
 
 ```javascript
-const cmpstub = require('@iabtechlabtcf/stub');
+const cmpstub = require('@nguyenquan241208/stub');
 ```
 
 then execute:

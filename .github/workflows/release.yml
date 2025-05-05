@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'The library release version'
+        description: "The library release version"
         required: true
-        default: ''
-      
+        default: ""
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -45,45 +45,45 @@ jobs:
       - name: Update package.json version
         if: ${{steps.check.outputs.version_changed == 'true'}}
         run: |
-            VERSION="${{ github.event.inputs.environment }}"
-            echo "Release v  $VERSION"
-            jq --arg ver "$VERSION" '.dependencies["@iabtechlabtcf/core"] = $ver' modules/cli/package.json > temp.json && mv temp.json modules/cli/package.json
-            jq --arg ver "$VERSION" '.devDependencies["@iabtechlabtcf/stub"] = $ver' modules/cmpapi/package.json > temp.json && mv temp.json modules/cmpapi/package.json
-            jq --arg ver "$VERSION" '.devDependencies["@iabtechlabtcf/testing"] = $ver' modules/cmpapi/package.json > temp.json && mv temp.json modules/cmpapi/package.json
-            jq --arg ver "$VERSION" '.devDependencies["@iabtechlabtcf/testing"] = $ver' modules/core/package.json > temp.json && mv temp.json modules/core/package.json
+          VERSION="${{ github.event.inputs.environment }}"
+          echo "Release v  $VERSION"
+          jq --arg ver "$VERSION" '.dependencies["@nguyenquan241208/core"] = $ver' modules/cli/package.json > temp.json && mv temp.json modules/cli/package.json
+          jq --arg ver "$VERSION" '.devDependencies["@nguyenquan241208/stub"] = $ver' modules/cmpapi/package.json > temp.json && mv temp.json modules/cmpapi/package.json
+          jq --arg ver "$VERSION" '.devDependencies["@nguyenquan241208/testing"] = $ver' modules/cmpapi/package.json > temp.json && mv temp.json modules/cmpapi/package.json
+          jq --arg ver "$VERSION" '.devDependencies["@nguyenquan241208/testing"] = $ver' modules/core/package.json > temp.json && mv temp.json modules/core/package.json
 
       - name: Publish to NPM
         if: ${{steps.check.outputs.version_changed == 'true'}}
-        run: | 
+        run: |
           VERSION="${{ github.event.inputs.environment }}"
           git config user.email "mayank@iabtechlab.com"
           git config user.name "Mayank Mishra"
           yarn version --new-version $VERSION
-          
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Assign latest tag to packages
         if: ${{steps.check.outputs.version_changed == 'true'}}
-        run: | 
+        run: |
           VERSION="${{ github.event.inputs.environment }}"
-          npm dist-tag add @iabtechlabtcf/cmpapi@$VERSION latest
-          npm dist-tag add @iabtechlabtcf/core@$VERSION latest
-          npm dist-tag add @iabtechlabtcf/stub@$VERSION latest
-          npm dist-tag add @iabtechlabtcf/cli@$VERSION latest
-          npm dist-tag add @iabtechlabtcf/testing@$VERSION latest
-          
+          npm dist-tag add @nguyenquan241208/cmpapi@$VERSION latest
+          npm dist-tag add @nguyenquan241208/core@$VERSION latest
+          npm dist-tag add @nguyenquan241208/stub@$VERSION latest
+          npm dist-tag add @nguyenquan241208/cli@$VERSION latest
+          npm dist-tag add @nguyenquan241208/testing@$VERSION latest
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Remove next tag from packages
         if: ${{steps.check.outputs.version_changed == 'true'}}
-        run: | 
+        run: |
           VERSION="${{ github.event.inputs.environment }}"
-          npm dist-tag rm @iabtechlabtcf/cmpapi@$VERSION next
-          npm dist-tag rm @iabtechlabtcf/core@$VERSION next
-          npm dist-tag rm @iabtechlabtcf/stub@$VERSION next
-          npm dist-tag rm @iabtechlabtcf/cli@$VERSION next
-          npm dist-tag rm @iabtechlabtcf/testing@$VERSION next
-          
+          npm dist-tag rm @nguyenquan241208/cmpapi@$VERSION next
+          npm dist-tag rm @nguyenquan241208/core@$VERSION next
+          npm dist-tag rm @nguyenquan241208/stub@$VERSION next
+          npm dist-tag rm @nguyenquan241208/cli@$VERSION next
+          npm dist-tag rm @nguyenquan241208/testing@$VERSION next
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Commit and Push Changes

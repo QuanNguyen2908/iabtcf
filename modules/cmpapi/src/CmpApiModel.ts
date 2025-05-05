@@ -1,6 +1,6 @@
-import {CmpStatus, DisplayStatus, EventStatus} from './status/index.js';
-import {EventListenerQueue} from './EventListenerQueue.js';
-import {TCModel} from '@iabtechlabtcf/core';
+import { CmpStatus, DisplayStatus, EventStatus } from "./status/index.js";
+import { EventListenerQueue } from "./EventListenerQueue.js";
+import { TCModel } from "@nguyenquan241208/core";
 
 /**
  * Class holds shareable data across cmp api and provides change event listener for TcModel.
@@ -8,8 +8,7 @@ import {TCModel} from '@iabtechlabtcf/core';
  * where CmpApi sets data and Commands read the data.
  */
 export class CmpApiModel {
-
-  public static readonly apiVersion = '2';
+  public static readonly apiVersion = "2";
   public static tcfPolicyVersion: number;
   public static readonly eventQueue = new EventListenerQueue();
   public static cmpStatus: CmpStatus = CmpStatus.LOADING;
@@ -24,7 +23,6 @@ export class CmpApiModel {
   public static tcString: string;
 
   public static reset(): void {
-
     delete this.cmpId;
     delete this.cmpVersion;
     delete this.eventStatus;
@@ -37,7 +35,5 @@ export class CmpApiModel {
     this.disabled = false;
     this.displayStatus = DisplayStatus.HIDDEN;
     this.eventQueue.clear();
-
   }
-
 }

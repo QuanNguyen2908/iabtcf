@@ -1,11 +1,10 @@
-import {CmpApiModel} from './CmpApiModel.js';
-import {CustomCommands} from './CustomCommands.js';
-import {CmpStatus, DisplayStatus, EventStatus} from './status/index.js';
-import {CallResponder} from './CallResponder.js';
-import {TCString, TCModel} from '@iabtechlabtcf/core';
+import { CmpApiModel } from "./CmpApiModel.js";
+import { CustomCommands } from "./CustomCommands.js";
+import { CmpStatus, DisplayStatus, EventStatus } from "./status/index.js";
+import { CallResponder } from "./CallResponder.js";
+import { TCString, TCModel } from "@nguyenquan241208/core";
 
 export class CmpApi {
-
   private callResponder: CallResponder;
   private isServiceSpecific: boolean;
   private numUpdates = 0;
@@ -16,10 +15,14 @@ export class CmpApi {
    * @param {boolean} isServiceSpecific - whether or not this cmp is configured to be service specific
    * @param {CustomCommands} [customCommands] - custom commands from the cmp
    */
-  public constructor(cmpId: number, cmpVersion: number, isServiceSpecific = false, customCommands?: CustomCommands) {
-
-    this.throwIfInvalidInt(cmpId, 'cmpId', 2);
-    this.throwIfInvalidInt(cmpVersion, 'cmpVersion', 0);
+  public constructor(
+    cmpId: number,
+    cmpVersion: number,
+    isServiceSpecific = false,
+    customCommands?: CustomCommands
+  ) {
+    this.throwIfInvalidInt(cmpId, "cmpId", 2);
+    this.throwIfInvalidInt(cmpVersion, "cmpVersion", 0);
 
     CmpApiModel.cmpId = cmpId;
     CmpApiModel.cmpVersion = cmpVersion;
@@ -27,17 +30,22 @@ export class CmpApi {
 
     this.isServiceSpecific = !!isServiceSpecific;
     this.callResponder = new CallResponder(customCommands);
-
   }
 
-  private throwIfInvalidInt(value: number, name: string, minValue: number): void | never {
-
-    if (!(typeof value === 'number' && Number.isInteger(value) && value >= minValue)) {
-
+  private throwIfInvalidInt(
+    value: number,
+    name: string,
+    minValue: number
+  ): void | never {
+    if (
+      !(
+        typeof value === "number" &&
+        Number.isInteger(value) &&
+        value >= minValue
+      )
+    ) {
       throw new Error(`Invalid ${name}: ${value}`);
-
     }
-
   }
 
   /**
@@ -53,82 +61,58 @@ export class CmpApi {
    * @return {void}
    */
   public update(encodedTCString: string | null, uiVisible = false): void {
-
     if (CmpApiModel.disabled) {
-
-      throw new Error('CmpApi Disabled');
-
+      throw new Error("CmpApi Disabled");
     }
 
     CmpApiModel.cmpStatus = CmpStatus.LOADED;
 
     if (uiVisible) {
-
       CmpApiModel.displayStatus = DisplayStatus.VISIBLE;
       CmpApiModel.eventStatus = EventStatus.CMP_UI_SHOWN;
-
     } else {
-
       if (CmpApiModel.tcModel === undefined) {
-
         CmpApiModel.displayStatus = DisplayStatus.DISABLED;
         CmpApiModel.eventStatus = EventStatus.TC_LOADED;
-
       } else {
-
         CmpApiModel.displayStatus = DisplayStatus.HIDDEN;
         CmpApiModel.eventStatus = EventStatus.USER_ACTION_COMPLETE;
-
       }
-
     }
 
-    CmpApiModel.gdprApplies = (encodedTCString !== null);
+    CmpApiModel.gdprApplies = encodedTCString !== null;
 
     if (!CmpApiModel.gdprApplies) {
-
       CmpApiModel.tcModel = null;
-
     } else {
-
-      if (encodedTCString === '') {
-
+      if (encodedTCString === "") {
         CmpApiModel.tcModel = new TCModel();
         CmpApiModel.tcModel.cmpId = CmpApiModel.cmpId;
         CmpApiModel.tcModel.cmpVersion = CmpApiModel.cmpVersion;
-
       } else {
-
         CmpApiModel.tcModel = TCString.decode(encodedTCString);
-
       }
 
       CmpApiModel.tcModel.isServiceSpecific = this.isServiceSpecific;
       CmpApiModel.tcfPolicyVersion = Number(CmpApiModel.tcModel.policyVersion);
       CmpApiModel.tcString = encodedTCString;
-
     }
 
     if (this.numUpdates === 0) {
-
       /**
        * Will make AddEventListener Commands respond immediately.
        */
 
       this.callResponder.purgeQueuedCalls();
-
     } else {
-
       /**
        * Should be no queued calls and only any addEventListener commands
        */
 
       CmpApiModel.eventQueue.exec();
-
     }
 
     this.numUpdates++;
-
   }
 
   /**
@@ -138,10 +122,7 @@ export class CmpApi {
    * @return {void}
    */
   public disable(): void {
-
     CmpApiModel.disabled = true;
     CmpApiModel.cmpStatus = CmpStatus.ERROR;
-
   }
-
 }

@@ -1,17 +1,13 @@
-import {GVL} from '@iabtechlabtcf/core';
+import { GVL } from "@nguyenquan241208/core";
 
 export class GVLFactory {
-
   public static getVersion(version: number, schema = "v2"): GVL {
-
-    return new GVL(require(`./vendorlist/${schema}/vendor-list-v${version}.json`));
-
+    return new GVL(
+      require(`./vendorlist/${schema}/vendor-list-v${version}.json`)
+    );
   }
 
   public static getLatest(schema = "v2"): GVL {
-
     return new GVL(require(`./vendorlist/${schema}/vendor-list.json`));
-
   }
-
 }
