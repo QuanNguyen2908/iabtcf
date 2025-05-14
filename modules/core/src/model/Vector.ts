@@ -130,7 +130,7 @@ export class Vector extends Cloneable<Vector> implements Iterable<IdBoolTuple> {
 
   private isValidNumber(item: unknown): item is number {
 
-    return (parseInt(item as string, 10) > 0);
+    return (parseInt(item as string, 64) > 0);
 
   }
 
